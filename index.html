@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Learning Pods Randomizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <style>
+       .group {
+        display: inline-block;
+        vertical-align: top;
+        /* background: #fff; */
+        padding: 1em;
+        margin: 0.25em;
+        width: 18%;
+        /* border-radius: 3px; */
+        /* box-shadow: 0 0 0.5em rgba(0,0,0,0.1); */
+       }
+    </style>
+</head>
+
+<h1>Learning Pods Generator</h1>
+<div class="wrap alt">
+	<p class="numgroups-wrap">Number of pods: <input class="numgroups" id="numgroupsInput" type="integer" value="" /></p>
+	<p>Apprentices - One Apprentice per Row:<br><textarea name="students" id="students" cols="40" rows="15">
+</textarea></p>
+	<button onclick="makeGroups()">Create Pods</button>
+    <!-- <button onclick="clearEntries()">Clear Entries</button> -->
+	<div class="groups"></div>
+</div>
+
+<script>
+function makeGroups() {
+    allnames = $('textarea').val().split('\n')
+    allnameslen = allnames.length;
+	numgroups = parseInt($('.numgroups').val());
+	namespergroup = allnameslen / numgroups;
+	
+	$('.groups').empty();
+
+	for (i = 0; i < numgroups; i++) {
+		$('.groups').append('<div class="group" id="group' + (i+1) + '"><h2>Group ' + (i+1) + '</h2></div>');
+	}
+
+	$('.group').each(function() {
+		for (j = 0; j < namespergroup; j++) {
+			var randname = Math.floor(Math.random() * allnames.length);
+			if(allnames[randname]){
+				$(this).append('<p>' + allnames[randname] + '</p>');
+			}
+			allnames.splice(randname, 1);
+			console.log(allnames);
+		}
+	});
+};
+function clearEntries(){
+    $('#numgroupsInput').empty()
+    $('textarea').empty()
+}
+</script>
+</html>
